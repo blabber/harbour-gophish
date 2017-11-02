@@ -27,7 +27,7 @@ Page {
 		delegate: ListItem {
 			id: menuListItem
 			contentHeight: Theme.fontSizeTiny + Theme.paddingSmall
-			enabled: typeLabel.text != '    '
+			enabled: typeLabel.text != '   '
 
 			Row {
 				width: parent.width
