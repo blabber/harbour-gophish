@@ -18,7 +18,7 @@ class MenuTest(unittest.TestCase):
     def test_menuitem_url(self):
         tests = [
                 [MenuItem('1', 'Testitem', '/test', 'localhost', '70'), 'gopher://localhost:70/1/test'],
-                [MenuItem(0, 'Main menu', '', 'example.com', '7070'), 'gopher://example.com:7070/0'],
+                [MenuItem('0', 'Main menu', '', 'example.com', '7070'), 'gopher://example.com:7070/0'],
             ]
 
         for menuitem, expected in tests:
