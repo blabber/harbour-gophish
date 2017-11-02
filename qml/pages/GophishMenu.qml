@@ -14,88 +14,104 @@ Page {
 		size: BusyIndicatorSize.Large
 	}
 
-	SilicaListView {
-		id: menuList
+	SilicaFlickable{
+		id: menuFlickable
 		anchors.fill: parent
+		contentWidth: menuList.width
+		contentHeight: menuList.height
 
-		Component.onCompleted: {
-			gophishMenu.populateList();
-		}
+		ListView {
+			id: menuList
+			height: contentItem.childrenRect.height
 
-		model: ListModel { id: menuListModel }
+			Component.onCompleted: {
+				gophishMenu.populateList();
+			}
 
-		delegate: ListItem {
-			id: menuListItem
-			contentHeight: Theme.fontSizeTiny + Theme.paddingSmall
-			enabled: typeLabel.text != '   '
+			model: ListModel { id: menuListModel }
 
-			Row {
-				width: parent.width
-				spacing: Theme.paddingMedium
+			delegate: ListItem {
+				id: menuListItem
+				contentHeight: Theme.fontSizeTiny + Theme.paddingSmall
+				enabled: typeLabel.text != '   '
 
-				anchors {
-					verticalCenter: parent.verticalCenter
-					left: parent.left
-					leftMargin: Theme.horizontalPageMargin
-				}
+				Row {
+					id: menuListItemRow
+					spacing: Theme.paddingMedium
 
-				Label {
-					id: typeLabel
-
-					text: {
-						if (type == '0') {
-							return 'TXT';
-						} else if (type == '1') {
-							return 'DIR';
-						} else {
-							return '   ';
+					Component.onCompleted: {
+						var w = width + 2*Theme.horizontalPageMargin;
+						if (w > menuList.width) {
+							menuList.width = w;
 						}
 					}
 
-					color: {
-						return menuListItem.highlighted ?
-							Theme.secondaryHighlightColor :
-							Theme.secondaryColor;
+					anchors {
+						verticalCenter: parent.verticalCenter
+						left: parent.left
+						leftMargin: Theme.horizontalPageMargin
+						rightMargin: Theme.horizontalPageMargin
 					}
 
-					font {
-						pixelSize: Theme.fontSizeTiny
-						family: 'monospace'
-					}
-				}
+					Label {
+						id: typeLabel
 
-				Label {
-					text: user_name
+						text: {
+							if (type == '0') {
+								return 'TXT';
+							} else if (type == '1') {
+								return 'DIR';
+							} else {
+								return '   ';
+							}
+						}
 
-					color: {
-						if (typeLabel.text == '   ') {
+						color: {
 							return menuListItem.highlighted ?
 								Theme.secondaryHighlightColor :
 								Theme.secondaryColor;
 						}
 
-						return menuListItem.highlighted ?
-							Theme.highlightColor :
-							Theme.primaryColor;
+						font {
+							pixelSize: Theme.fontSizeTiny
+							family: 'monospace'
+						}
 					}
 
-					font {
-						pixelSize: Theme.fontSizeTiny
-						family: 'monospace'
+					Label {
+						text: user_name
+
+						color: {
+							if (typeLabel.text == '   ') {
+								return menuListItem.highlighted ?
+									Theme.secondaryHighlightColor :
+									Theme.secondaryColor;
+							}
+
+							return menuListItem.highlighted ?
+								Theme.highlightColor :
+								Theme.primaryColor;
+						}
+
+						font {
+							pixelSize: Theme.fontSizeTiny
+							family: 'monospace'
+						}
 					}
 				}
-			}
 
-			onClicked: {
-				if (type == '0') {
-					pageStack.push('GophishText.qml', {'url': url})
-				} else if (type == '1') {
-					pageStack.push('GophishMenu.qml', {'url': url})
+				onClicked: {
+					if (type == '0') {
+						pageStack.push('GophishText.qml', {'url': url})
+					} else if (type == '1') {
+						pageStack.push('GophishMenu.qml', {'url': url})
+					}
 				}
 			}
 		}
 
-		VerticalScrollDecorator { flickable: menuList }
+		VerticalScrollDecorator { flickable: menuFlickable }
+		HorizontalScrollDecorator { flickable: menuFlickable }
 	}
 
 	function populateList() {
