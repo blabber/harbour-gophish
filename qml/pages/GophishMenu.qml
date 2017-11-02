@@ -66,6 +66,12 @@ Page {
 					text: user_name
 
 					color: {
+						if (typeLabel.text == '   ') {
+							return menuListItem.highlighted ?
+								Theme.secondaryHighlightColor :
+								Theme.secondaryColor;
+						}
+
 						return menuListItem.highlighted ?
 							Theme.highlightColor :
 							Theme.primaryColor;
