@@ -3,9 +3,16 @@ import Sailfish.Silica 1.0
 
 Page {
 	property string url
+	property bool loading: true
 
 	id: gophishMenu
 	allowedOrientations: Orientation.All
+
+	BusyIndicator {
+		running: gophishMenu.loading
+		anchors.centerIn: parent
+		size: BusyIndicatorSize.Large
+	}
 
 	SilicaListView {
 		id: menuList
@@ -78,6 +85,8 @@ Page {
 	}
 
 	function populateList() {
+		gophishMenu.loading = true;
+
 		if (!python.initialized) {
 			return;
 		}
@@ -86,6 +95,8 @@ Page {
 			items.forEach(function(item) {
 				menuListModel.append(item);
 			});
+
+			gophishMenu.loading = false;
 		});
 	}
 
