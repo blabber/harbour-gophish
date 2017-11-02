@@ -28,5 +28,14 @@ ApplicationWindow
 
 			call('gophish.read_menu', [url], f);
 		}
+
+		function read_text(url, f) {
+			if (!initialized) {
+				console.log('skipped read_text:', url);
+				return;
+			}
+
+			call('gophish.read_text', [url], f);
+		}
 	}
 }

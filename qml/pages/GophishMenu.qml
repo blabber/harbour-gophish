@@ -43,11 +43,13 @@ Page {
 					id: typeLabel
 
 					text: {
-						if (type == '1') {
+						if (type == '0') {
+							return 'TXT';
+						} else if (type == '1') {
 							return 'DIR';
+						} else {
+							return '   ';
 						}
-
-						return '   ';
 					}
 
 					color: {
@@ -84,7 +86,13 @@ Page {
 				}
 			}
 
-			onClicked: pageStack.push('GophishMenu.qml', {'url': url})
+			onClicked: {
+				if (type == '0') {
+					pageStack.push('GophishText.qml', {'url': url})
+				} else if (type == '1') {
+					pageStack.push('GophishMenu.qml', {'url': url})
+				}
+			}
 		}
 
 		VerticalScrollDecorator { flickable: menuList }
