@@ -37,15 +37,17 @@ Page {
 
 					text: {
 						if (type == '1') {
-							return ' DIR';
+							return 'DIR';
 						}
 
-						return '    ';
+						return '   ';
 					}
 
-					color: menuListItem.highlighted ?
-						Theme.secondaryHighlightColor :
-						Theme.secondaryColor;
+					color: {
+						return menuListItem.highlighted ?
+							Theme.secondaryHighlightColor :
+							Theme.secondaryColor;
+					}
 
 					font {
 						pixelSize: Theme.fontSizeTiny
@@ -55,9 +57,13 @@ Page {
 
 				Label {
 					text: user_name
-					color: menuListItem.highlighted ?
-						Theme.highlightColor :
-						Theme.primaryColor;
+
+					color: {
+						return menuListItem.highlighted ?
+							Theme.highlightColor :
+							Theme.primaryColor;
+					}
+
 					font {
 						pixelSize: Theme.fontSizeTiny
 						family: 'monospace'
