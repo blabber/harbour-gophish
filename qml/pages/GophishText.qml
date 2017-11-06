@@ -1,8 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 Page {
 	property string url
+	property string selector
+	property string host
 	property bool loading: true
 
 	id: gophishText
@@ -17,26 +19,41 @@ Page {
 	SilicaFlickable {
 		id: textFlickable
 		anchors.fill: parent
-		contentWidth: textLabel.width
-		contentHeight: textLabel.height
+		contentWidth: textColumn.width
+		contentHeight: textColumn.height + Theme.paddingLarge
 
-		Label {
-			id: textLabel
-			color: Theme.secondaryColor
-
-			anchors {
-				top: parent.top
-				left: parent.left
-				leftMargin: Theme.horizontalPageMargin
+		Column {
+			id: textColumn
+			width: {
+				var w = textLabel.width + 2*Theme.horizontalPageMargin;
+				return w < gophishText.width ? gophishText.width : w;
 			}
 
-			Component.onCompleted: {
-				gophishText.readText();
+			PageHeader {
+				title: gophishText.host
+				description: gophishText.selector
+				visible: !gophishText.loading
 			}
 
-			font {
-				pixelSize: Theme.fontSizeTiny
-				family: 'monospace'
+			Row {
+				Item {
+					width: Theme.horizontalPageMargin
+					height: 1
+				}
+
+				Label {
+					id: textLabel
+					color: Theme.highlightColor
+
+					Component.onCompleted: {
+						gophishText.readText();
+					}
+
+					font {
+						pixelSize: Theme.fontSizeTiny
+						family: 'monospace'
+					}
+				}
 			}
 		}
 

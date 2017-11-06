@@ -1,8 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 Page {
 	property string url
+	property string selector
+	property string host
 	property bool loading: true
 
 	id: gophishMenu
@@ -18,14 +20,24 @@ Page {
 		id: menuFlickable
 		anchors.fill: parent
 		contentWidth: menuList.width
-		contentHeight: menuList.height
+		contentHeight: menuList.height + Theme.paddingLarge
 
 		ListView {
+			property real itemWidth: 0
+
 			id: menuList
+			interactive: false
+			width: menuList.itemWidth < gophishMenu.width ? gophishMenu.width : menuList.itemWidth;
 			height: contentItem.childrenRect.height
 
 			Component.onCompleted: {
 				gophishMenu.populateList();
+			}
+
+			header: PageHeader {
+				title: gophishMenu.host
+				description: gophishMenu.selector
+				visible: !gophishMenu.loading
 			}
 
 			model: ListModel { id: menuListModel }
@@ -41,8 +53,9 @@ Page {
 
 					Component.onCompleted: {
 						var w = width + 2*Theme.horizontalPageMargin;
-						if (w > menuList.width) {
-							menuList.width = w;
+
+						if (w > menuList.itemWidth) {
+							menuList.itemWidth = w;
 						}
 					}
 
@@ -83,9 +96,7 @@ Page {
 
 						color: {
 							if (typeLabel.text == '   ') {
-								return menuListItem.highlighted ?
-									Theme.secondaryHighlightColor :
-									Theme.secondaryColor;
+								return Theme.highlightColor
 							}
 
 							return menuListItem.highlighted ?
@@ -101,10 +112,11 @@ Page {
 				}
 
 				onClicked: {
+					var params = {'url': url, 'selector': selector, 'host': host};
 					if (type == '0') {
-						pageStack.push('GophishText.qml', {'url': url})
+						pageStack.push('GophishText.qml', params)
 					} else if (type == '1') {
-						pageStack.push('GophishMenu.qml', {'url': url})
+						pageStack.push('GophishMenu.qml', params)
 					}
 				}
 			}
@@ -115,6 +127,7 @@ Page {
 	}
 
 	function populateList() {
+		menuList.itemWidth  = 0;
 		gophishMenu.loading = true;
 
 		if (!python.initialized) {
