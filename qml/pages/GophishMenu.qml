@@ -74,6 +74,8 @@ Page {
 								return 'TXT';
 							} else if (type == '1') {
 								return 'DIR';
+							} else if (type.toLowerCase() == 'h') {
+								return 'HTM';
 							} else {
 								return '   ';
 							}
@@ -117,6 +119,8 @@ Page {
 						pageStack.push('GophishText.qml', params)
 					} else if (type == '1') {
 						pageStack.push('GophishMenu.qml', params)
+					} else if (type.toLowerCase() == 'h') {
+						pageStack.push('GophishHtml.qml', params)
 					}
 				}
 			}
