@@ -20,8 +20,21 @@ ApplicationWindow
 		property bool initialized: false
 
 		Component.onCompleted: {
+			setHandler('gophishError', function(error) {
+				pageStack.completeAnimation();
+				pageStack.replace('pages/ErrorPage.qml', { 'error': error});
+			});			
+
 			addImportPath(Qt.resolvedUrl('../python'));
 			importModule('gophish', function () { initialized = true } );
+		}
+
+		onError: {
+			console.log('got unhandled python error:', traceback);
+		}
+
+		onReceived: {
+			console.log('got unhandled message from python', data)
 		}
 
 		function read_menu(url, f) {

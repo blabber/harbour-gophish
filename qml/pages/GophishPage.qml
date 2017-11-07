@@ -8,4 +8,5 @@ Page {
 	property bool loading: true
 
 	allowedOrientations: Orientation.All
+	backNavigation: !loading
 }

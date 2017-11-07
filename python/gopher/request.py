@@ -15,11 +15,15 @@ class Request:
         self.port = port
         self.selector = selector
 
-    def get_raw_data(self):
+    def get_raw_data(self, timeout=1.0):
         """Performs the gopher requests and returns the raw data as provided by
         the gopher server.
+
+        The request will time out if no connection can be established in
+        timeout seconds.
         """
-        with socket.create_connection((self.host, self.port)) as s:
+        with socket.create_connection((self.host, self.port), timeout) as s:
+            s.settimeout(None)
             with s.makefile(mode='rw') as f:
                 print(self.selector, end='\r\n', file=f, flush=True)
                 return f.read()
