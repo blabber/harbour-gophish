@@ -47,6 +47,8 @@ def request_from_url(url):
     if len(pu.path) > 2:
         t = pu.path[1]
         s = pu.path[2:]
+    if len(pu.query) > 0:
+        s = s + '?' + pu.query
 
     p = '70'
     if pu.port:

@@ -11,6 +11,7 @@ class RequestTest(unittest.TestCase):
                 ['gopher://127.0.0.1:7070/1/test', Request('1', '127.0.0.1', '7070', '/test')],
                 ['gopher://example.com/1test/', Request('1', 'example.com', '70', 'test/')],
                 ['gopher://example.com/0test.txt', Request('0', 'example.com', '70', 'test.txt')],
+                ['gopher://example.com/0test?q', Request('0', 'example.com', '70', 'test?q')],
             ]
 
         for url, expected in tests:
