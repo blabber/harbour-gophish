@@ -15,7 +15,7 @@ class Request:
         self.port = port
         self.selector = selector
 
-    def get_raw_data(self, timeout=1.0):
+    def get_raw_data(self, timeout=3.0):
         """Performs the gopher requests and returns the raw data as provided by
         the gopher server.
 
