@@ -4,8 +4,15 @@ import io.thp.pyotherside 1.3
 
 import "pages"
 
-ApplicationWindow
-{
+ApplicationWindow {
+	cover: Component {
+		CoverBackground {
+			CoverPlaceholder {
+				text: 'gophish'
+			}
+		}
+	}
+
 	initialPage: Component {
 		GophishMenu {
 			url: 'gopher://bitreich.org/1/lawn'
