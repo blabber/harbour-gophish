@@ -12,6 +12,15 @@ Page {
 		anchors.fill: parent
 		contentHeight: errorColumn.height
 
+		PullDownMenu {
+			MenuItem {
+				text: 'Goto URL'
+				onClicked: {
+					pageStack.push('GotoUrlDialog.qml');
+				}
+			}
+		}
+
 		Column {
 			id: errorColumn
 

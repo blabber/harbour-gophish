@@ -16,6 +16,17 @@ GophishPage {
 		contentWidth: textColumn.width
 		contentHeight: textColumn.height + Theme.paddingLarge
 
+		PullDownMenu {
+			MenuItem {
+				text: 'Goto URL'
+				onClicked: {
+					pageStack.push('GotoUrlDialog.qml',
+						{'url': gophishText.url});
+				}
+				enabled: !gophishText.loading
+			}
+		}
+
 		Column {
 			id: textColumn
 			width: {

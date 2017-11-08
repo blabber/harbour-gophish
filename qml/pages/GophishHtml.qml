@@ -13,6 +13,13 @@ GophishPage {
 	SilicaWebView {
 		PullDownMenu {
 			MenuItem {
+				text: 'Goto URL'
+				onClicked: {
+					pageStack.push('GotoUrlDialog.qml');
+				}
+				enabled: !gophishHtml.loading
+			}
+			MenuItem {
 				text: 'Open in external browser'
 				onClicked: Qt.openUrlExternally(gophishWebView.url)
 				enabled: gophishWebView.url != 'about:blank'

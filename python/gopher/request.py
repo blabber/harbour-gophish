@@ -9,8 +9,9 @@ class Request:
     The request can be performed using the get_raw_data method.
     """
 
-    def __init__(self, host, port=70, selector=''):
+    def __init__(self, type, host, port='70', selector=''):
         """Initialized a new Request instance."""
+        self.type = type
         self.host= host
         self.port = port
         self.selector = selector
@@ -34,20 +35,22 @@ class Request:
 
     def __repr__(self):
         """Returns a string representation of the Request."""
-        return "Request('{host}', {port}, '{selector}')".format(
+        return "Request('{type}', '{host}', {port}, '{selector}')".format(
             **self.__dict__)
 
 def request_from_url(url):
     """Parses a gopher URL and returns the corresponding Request instance."""
     pu = urlparse(url, scheme='gopher', allow_fragments=False)
 
+    t = '1'
     s = ''
     if len(pu.path) > 2:
+        t = pu.path[1]
         s = pu.path[2:]
 
-    p = pu.port
-    if not p:
-        p = 70
+    p = '70'
+    if pu.port:
+        p = str(pu.port)
 
-    return Request(pu.hostname, p, s)
+    return Request(t, pu.hostname, p, s)
 

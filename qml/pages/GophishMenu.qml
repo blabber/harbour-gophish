@@ -16,6 +16,17 @@ GophishPage {
 		contentWidth: menuList.width
 		contentHeight: menuList.height + Theme.paddingLarge
 
+		PullDownMenu {
+			MenuItem {
+				text: 'Goto URL'
+				onClicked: {
+					pageStack.push('GotoUrlDialog.qml',
+						{'url': gophishMenu.url});
+				}
+				enabled: !gophishMenu.loading
+			}
+		}
+
 		ListView {
 			property real itemWidth: 0
 
@@ -107,16 +118,7 @@ GophishPage {
 					}
 				}
 
-				onClicked: {
-					var params = {'url': url, 'selector': selector, 'host': host};
-					if (type == '0') {
-						pageStack.push('GophishText.qml', params)
-					} else if (type == '1') {
-						pageStack.push('GophishMenu.qml', params)
-					} else if (type.toLowerCase() == 'h') {
-						pageStack.push('GophishHtml.qml', params)
-					}
-				}
+				onClicked: python.open_url(url)
 			}
 		}
 

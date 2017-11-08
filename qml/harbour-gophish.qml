@@ -22,7 +22,7 @@ ApplicationWindow
 		Component.onCompleted: {
 			setHandler('gophishError', function(error) {
 				pageStack.completeAnimation();
-				pageStack.replace('pages/ErrorPage.qml', { 'error': error});
+				pageStack.replace('pages/ErrorPage.qml', { 'error': error });
 			});			
 
 			addImportPath(Qt.resolvedUrl('../python'));
@@ -53,6 +53,21 @@ ApplicationWindow
 			}
 
 			call('gophish.read_text', [url], f);
+		}
+
+		function open_url(url) {
+			console.log('open_url', url);
+
+			var r = call_sync('gophish.parse_url', [url])
+			var params = {'url': url, 'selector': r.selector, 'host': r.host};
+
+			if (r.type == '0') {
+				pageStack.push('pages/GophishText.qml', params);
+			} else if (r.type == '1') {
+				pageStack.push('pages/GophishMenu.qml', params);
+			} else if (r.type.toLowerCase() == 'h') {
+				pageStack.push('pages/GophishHtml.qml', params);
+			}
 		}
 	}
 }

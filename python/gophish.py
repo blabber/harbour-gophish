@@ -57,3 +57,12 @@ def send_gophish_error(ex):
     traceback.print_exception(*ex)
     pyotherside.send('gophishError',
         os.linesep.join(traceback.format_exception_only(ex[0], ex[1])))
+
+def parse_url(url):
+    """Parses a gopher URL and returns a dictionary.
+
+    The returned dictionary contains 'type', 'selector', 'host', 'type'.
+    """
+    r = gopher.request.request_from_url(url)
+    return { 'type': r.type, 'host': r.host, 'selector': r.selector,
+        'host': r.host }
