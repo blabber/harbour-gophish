@@ -15,9 +15,9 @@ ApplicationWindow {
 
 	initialPage: Component {
 		GophishMenu {
-			url: 'gopher://bitreich.org/1/lawn'
-			host: 'bitreich.org'
-			selector: '/lawn'
+			url: 'gopher://floodgap.com'
+			host: 'floodgap.com'
+			selector: ''
 		}
 	}
 
