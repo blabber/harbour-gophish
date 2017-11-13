@@ -22,12 +22,27 @@ class Request:
 
         The request will time out if no connection can be established in
         timeout seconds.
+
+        Selectors are send as UTF-8 encoded strings. Data is read as binary
+        data and then decoded into a UTF-8 string. If the decoding of the data
+        fails, it is interpreted as Latin-1.
         """
+        b = b''
         with socket.create_connection((self.host, self.port), timeout) as s:
             s.settimeout(None)
-            with s.makefile(mode='rw') as f:
-                print(self.selector, end='\r\n', file=f, flush=True)
-                return f.read()
+            with s.makefile(mode='brw') as f:
+                f.write((self.selector+'\r\n').encode('utf-8'))
+                f.flush()
+                b =f.read()
+
+        try:
+            bs = str(b, encoding='utf-8')
+            print('encoding: utf-8')
+            return bs
+        except UnicodeDecodeError:
+            bs = str(b, encoding='latin-1')
+            print('encoding: latin-1')
+            return bs
 
     def __eq__(self, other):
         """Returns True if the other Request represents the same request."""
