@@ -79,6 +79,8 @@ GophishPage {
 								return 'TXT';
 							} else if (type == '1') {
 								return 'DIR';
+							} else if (type == '7') {
+								return 'QRY';
 							} else if (type.toLowerCase() == 'h') {
 								return 'HTM';
 							} else {

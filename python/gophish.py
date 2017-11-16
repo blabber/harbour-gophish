@@ -74,8 +74,8 @@ def send_gophish_error(ex, info=''):
 def parse_url(url):
     """Parses a gopher URL and returns a dictionary.
 
-    The returned dictionary contains 'type', 'selector', 'host', 'type'.
+    The returned dictionary contains 'type', 'host', 'port', 'selector'.
     """
     r = gopher.request.request_from_url(url)
-    return { 'type': r.type, 'host': r.host, 'selector': r.selector,
-        'host': r.host }
+    return {'type': r.type, 'host': r.host, 'port': r.port,
+        'selector': r.selector}
