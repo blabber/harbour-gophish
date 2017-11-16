@@ -32,9 +32,10 @@ Dialog {
 
 	onDone: {
 		if (result == DialogResult.Accepted) {
-			var u = urlField.text.trim().toLowerCase()
+			var u = urlField.text
 			if (u.length < 9 || 
-				((u.length >= 9) && (u.substring(0, 9) != 'gopher://'))) {
+				((u.length >= 9) &&
+					(u.substring(0, 9).toLowerCase() != 'gopher://'))) {
 				u = 'gopher://' + u;
 			}
 
