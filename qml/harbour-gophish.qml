@@ -22,7 +22,7 @@ ApplicationWindow {
 	}
 
 	Python {
-		id: python
+		id: controller
 
 		property bool initialized: false
 

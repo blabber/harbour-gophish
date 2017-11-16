@@ -69,21 +69,21 @@ GophishPage {
 	function readText() {
 		gophishText.loading = true;
 
-		if (!python.initialized) {
+		if (!controller.initialized) {
 			return;
 		}
 
-		python.read_text(url, function(text) {
+		controller.read_text(url, function(text) {
 			textLabel.text = text
 			gophishText.loading = false;
 		});
 	}
 
 	Connections {
-		target: python
+		target: controller
 
 		onInitializedChanged: {
-			if (python.initialized) {
+			if (controller.initialized) {
 				gophishText.readText();
 			}
 		}

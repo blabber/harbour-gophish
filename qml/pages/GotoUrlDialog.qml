@@ -40,7 +40,7 @@ Dialog {
 			}
 
 			pageStack.clear();
-			python.open_url(u);
+			controller.open_url(u);
 		}
 	}
 }

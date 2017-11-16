@@ -118,7 +118,7 @@ GophishPage {
 					}
 				}
 
-				onClicked: python.open_url(url)
+				onClicked: controller.open_url(url)
 			}
 		}
 
@@ -130,11 +130,11 @@ GophishPage {
 		menuList.itemWidth  = 0;
 		gophishMenu.loading = true;
 
-		if (!python.initialized) {
+		if (!controller.initialized) {
 			return;
 		}
 
-		python.read_menu(url, function(items) {
+		controller.read_menu(url, function(items) {
 			items.forEach(function(item) {
 				menuListModel.append(item);
 			});
@@ -144,10 +144,10 @@ GophishPage {
 	}
 
 	Connections {
-		target: python
+		target: controller
 
 		onInitializedChanged: {
-			if (python.initialized) {
+			if (controller.initialized) {
 				gophishMenu.populateList();
 			}
 		}

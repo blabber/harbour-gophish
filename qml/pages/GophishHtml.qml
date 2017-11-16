@@ -47,7 +47,7 @@ GophishPage {
 	function readHtml() {
 		gophishHtml.loading = true;
 
-		if (!python.initialized) {
+		if (!controller.initialized) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ GophishPage {
 			return;
 		}
 
-		python.read_text(url, function(html) {
+		controller.read_text(url, function(html) {
 			gophishWebView.loadHtml(html, "");
 			gophishHtml.loading = false;
 		});
@@ -68,10 +68,10 @@ GophishPage {
 	}
 
 	Connections {
-		target: python
+		target: controller
 
 		onInitializedChanged: {
-			if (python.initialized) {
+			if (controller.initialized) {
 				gophishHtml.readHtml();
 			}
 		}
