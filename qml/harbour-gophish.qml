@@ -75,7 +75,12 @@ ApplicationWindow {
 			} else if (r.type == '7') {
 				pageStack.push('pages/GophishQuery.qml', params);
 			} else if (r.type.toLowerCase() == 'h') {
-				pageStack.push('pages/GophishHtml.qml', params);
+				if ((r.selector.length > 4) && (r.selector.substring(0, 4) == 'URL:')) {
+					var u = r.selector.substring(4, r.selector.length);
+					pageStack.push('pages/ExternalUrlDialog.qml', {'url': u});
+				} else {
+					pageStack.push('pages/GophishHtml.qml', params);
+				}
 			}
 		}
 

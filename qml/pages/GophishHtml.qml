@@ -51,20 +51,10 @@ GophishPage {
 			return;
 		}
 
-		if (isUrlSelector()) {
-			gophishWebView.url = selector.substring(4, selector.length);
-			gophishHtml.loading = false;
-			return;
-		}
-
 		controller.read_text(url, function(html) {
 			gophishWebView.loadHtml(html, "");
 			gophishHtml.loading = false;
 		});
-	}
-
-	function isUrlSelector() {
-		return ((selector.length > 4) && (selector.substring(0, 4) == 'URL:'));
 	}
 
 	Connections {
