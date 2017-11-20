@@ -8,6 +8,7 @@ Supported item types
 
 * `0` - text files
 * `1` - gopher directories
+* `7` - search queries
 * `h` - HTML documents
   * traditional `GET` requests
   * `URL:` links
