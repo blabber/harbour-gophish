@@ -22,19 +22,21 @@ Dialog {
 			label: 'Query'
 
 			Component.onCompleted: queryField.forceActiveFocus()
+
+			EnterKey.enabled: gophishQuery.canAccept;
+			EnterKey.iconSource: 'image://theme/icon-m-search'
+			EnterKey.onClicked: gophishQuery.accept();
 		}
 	}
 
-	onDone: {
-		if (result == DialogResult.Accepted) {
-			var r = controller.parse_url(gophishQuery.url);
-			var u = 'gopher://' + r['host'] + ':' + r['port'] + '/1' +
-				r['selector'] + '\t' + queryField.text;
+	onAccepted: {
+		var r = controller.parse_url(gophishQuery.url);
+		var u = 'gopher://' + r['host'] + ':' + r['port'] + '/1' +
+			r['selector'] + '\t' + queryField.text;
 
-			pageStack.completeAnimation();
-			pageStack.pop();
-			pageStack.completeAnimation();
-			controller.open_url(u);
-		}
+		pageStack.completeAnimation();
+		pageStack.pop();
+		pageStack.completeAnimation();
+		controller.open_url(u);
 	}
 }
