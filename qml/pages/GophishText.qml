@@ -4,10 +4,12 @@ import Sailfish.Silica 1.0
 GophishPage {
 	id: gophishText
 
-	BusyIndicator {
-		running: gophishText.loading
+	ProgressBar {
 		anchors.centerIn: parent
-		size: BusyIndicatorSize.Large
+		width: parent.width - 2*Theme.horizontalPageMargin
+		label: 'loading'
+		indeterminate: true
+		visible: gophishText.loading
 	}
 
 	SilicaFlickable {

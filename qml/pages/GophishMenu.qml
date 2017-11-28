@@ -4,10 +4,31 @@ import Sailfish.Silica 1.0
 GophishPage {
 	id: gophishMenu
 
-	BusyIndicator {
-		running: gophishMenu.loading
+	ProgressBar {
+		id: gophishMenuProgress
+
 		anchors.centerIn: parent
-		size: BusyIndicatorSize.Large
+		width: parent.width - 2*Theme.horizontalPageMargin
+		label: 'loading'
+
+		minimumValue: 0
+		maximumValue: 0
+		value: 0
+		indeterminate: true
+
+		visible: gophishMenu.loading
+	}
+
+	WorkerScript {
+		id: gophishMenuWorker
+		source: "listpopulator.js"
+
+		onMessage: {
+			gophishMenuProgress.maximumValue = messageObject.max;
+			gophishMenuProgress.value = messageObject.current;
+			gophishMenuProgress.indeterminate = false;
+			gophishMenu.loading = !(messageObject.max == messageObject.current);
+		}
 	}
 
 	SilicaFlickable{
@@ -34,6 +55,7 @@ GophishPage {
 			interactive: false
 			width: menuList.itemWidth < gophishMenu.width ? gophishMenu.width : menuList.itemWidth;
 			height: contentItem.childrenRect.height
+			visible: !gophishMenu.loading
 
 			Component.onCompleted: {
 				gophishMenu.populateList();
@@ -137,11 +159,7 @@ GophishPage {
 		}
 
 		controller.read_menu(url, function(items) {
-			items.forEach(function(item) {
-				menuListModel.append(item);
-			});
-
-			gophishMenu.loading = false;
+			gophishMenuWorker.sendMessage({'model': menuListModel, 'items': items});
 		});
 	}
 
