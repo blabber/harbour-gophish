@@ -9,7 +9,7 @@ def read_text(request):
     """
     lines = []
 
-    for line in request.get_raw_data().splitlines():
+    for line in request.get_text_data().splitlines():
         if line == '.':
             break
         lines.append(line)

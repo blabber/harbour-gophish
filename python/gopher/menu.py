@@ -60,7 +60,7 @@ def read_menu(request):
     """
     items = []
 
-    for line in request.get_raw_data().splitlines():
+    for line in request.get_text_data().splitlines():
         if line == '.':
             break
         items.append(menuitem_from_raw_line(line))

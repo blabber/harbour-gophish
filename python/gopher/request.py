@@ -19,8 +19,27 @@ class Request:
         self.selector = selector
 
     def get_raw_data(self, timeout=3.0):
-        """Performs the gopher requests and returns the raw data as provided by
-        the gopher server.
+        """Performs the gopher requests and returns the (binary) raw data as
+        provided by the gopher server.
+
+        The request will time out if no connection can be established in
+        timeout seconds.
+
+        The request is initially sent UTF-8 encoded. get_text_data might
+        override this encoding.
+        """
+        b = b''
+        with socket.create_connection((self.host, self.port), timeout) as s:
+            s.settimeout(None)
+            with s.makefile(mode='brw') as f:
+                f.write((self.selector+'\r\n').encode(self.encoding()))
+                f.flush()
+                b = f.read()
+        return b
+
+    def get_text_data(self, timeout=3.0):
+        """Performs the gopher requests and returns the text representation of
+        the data provided by the gopher server.
 
         The request will time out if no connection can be established in
         timeout seconds.
@@ -31,14 +50,7 @@ class Request:
         communication with the server will be encoded in Latin-1 (That implies,
         that the first selector send to any server is always encoded as UTF-8).
         """
-        b = b''
-        with socket.create_connection((self.host, self.port), timeout) as s:
-            s.settimeout(None)
-            with s.makefile(mode='brw') as f:
-                f.write((self.selector+'\r\n').encode(self.encoding()))
-                f.flush()
-                b = f.read()
-
+        b = self.get_raw_data(timeout)
         try:
             bs = str(b, encoding=self.encoding())
             return bs
